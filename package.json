@@ -1,0 +1,21 @@
+{
+  "name": "hub",
+  "version": "1.0.0",
+  "description": "An experiment general information hub platform",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackaranda/hub.git"
+  },
+  "author": "Christopher Jack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackaranda/hub/issues"
+  },
+  "homepage": "https://github.com/jackaranda/hub#readme",
+  "devDependencies": {
+    "material-components-web": "^7.0.0"
+  }
+}
