@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block navbar_start %}
+<div class="navbar-item has-dropdown is-hoverable">
+    <a class="navbar-link">About</a>
+    <div class="navbar-dropdown">
+        <a class="navbar-item">What is this?</a>
+        <a class="navbar-item">And this?</a>
+    </div>
+</div>
+<a class="navbar-item" href="admin.html">Documentation</a>
+{% endblock %}
+
+{% block content %}
+<section class="container is-max-widescreen">
+    Testing content
+</section> 
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "web/base.html" %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+{% endblock %}
+
+{% block navbar_start %}
+<div class="navbar-item has-dropdown is-hoverable">
+    <a class="navbar-link">About</a>
+    <div class="navbar-dropdown">
+        <a class="navbar-item">What is this?</a>
+        <a class="navbar-item">And this?</a>
+    </div>
+</div>
+<a class="navbar-item" href="admin.html">Documentation</a>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="columns">
+        <div id="vis" class="column is-full">
+        </div>
+      </div>
+</section>
+
+<script type="text/javascript">
+    var yourVlSpec = {
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "description": "A plot of 2016 annual global precipitation data from the NOAA Climate Forecast System (CFS) v2.",
+  "width": 1000,
+  "height": 500,
+  "signals": [
+    {
+      "name": "projection", "value": "naturalEarth1",
+      "bind": {"input": "select", "options": [
+        "azimuthalEqualArea", "equalEarth", "equirectangular",
+        "naturalEarth1", "mollweide", "orthographic"
+      ]}
+    },
+    {
+      "name": "scale", "value": 200,
+      "bind": {"input": "range", "min": 50, "max": 400, "step": 5}
+    },
+    {
+      "name": "rotate0", "value": 0,
+      "bind": {"input": "range", "min": -180, "max": 180, "step": 1}
+    },
+    {
+      "name": "rotate1", "value": 0,
+      "bind": {"input": "range", "min": 0, "max": 360, "step": 1}
+    },
+    {
+      "name": "rotate2", "value": 0,
+      "bind": {"input": "range", "min": 0, "max": 360, "step": 1}
+    },
+    {
+      "name": "opacity", "value": 0.5,
+      "bind": {"input": "range", "min": 0, "max": 1, "step": 0.01}
+    },
+    {
+      "name": "levels", "value": 6,
+      "bind": {"input": "range", "min": 2, "max": 12, "step": 1}
+    },
+    {
+      "name": "stop", "value": 3000
+    },
+    {
+      "name": "step",
+      "update": "stop / levels"
+    }
+  ],
+
+  "data": [
+    {
+      "name": "features",
+      "url": "/maps/{{ shortname }}/features",
+      "format": {"type": "json"}
+    }
+  ],
+
+  "projections": [
+    {
+      "name": "projection",
+      "type": {"signal": "projection"},
+      "scale": {"signal": "scale"},
+      "rotate": {"signal": "[rotate0, rotate1, rotate2]"},
+      "translate": {"signal": "[width/2, height/2]"}
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+      "type": "quantize",
+      "domain": {"signal": "[0, stop]"},
+      "range": {"scheme": "bluepurple", "count": {"signal": "levels"}}
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "shape",
+      "tooltip": {"content":"data"},
+      "clip": true,
+      "from": {"data": "features"},
+      "encode": {
+        "update": {
+          "strokeWidth": {"value": 1},
+          "stroke": {"value": "#000"},
+          "fill": {"scale": "color", "field": "properties.POP_EST"} 
+        }
+      },
+      "transform": [
+        {
+          "type": "geoshape",
+          "projection": "projection"
+        }
+      ]
+    },
+  ],
+  "scales": [
+    {
+      "name": "color",
+      "type": "quantize",
+      "domain": {"signal": "[10000000, 100000000]"},
+      "range": {"scheme": "bluepurple", "count": {"signal": "levels"}}
+    }
+  ],
+  "legends": [
+    {
+      "title": "Annual Precipitation (mm)",
+      "fill": "color",
+      "orient": "bottom",
+      "offset": 5,
+      "type": "gradient",
+      "gradientLength": 100,
+      "gradientThickness": 12,
+      "titlePadding": 10,
+      "titleOrient": "left",
+      "titleAnchor": "end",
+      "direction": "horizontal"
+    }
+  ],
+
+  "config": {
+    "legend": {"layout": {"anchor": "middle"}}
+  }
+    };
+    vegaEmbed('#vis', yourVlSpec);
+</script>
+
+{% endblock %}
