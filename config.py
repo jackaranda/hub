@@ -1,6 +1,7 @@
 # Statement for enabling the development environment
 DEBUG = True
 
+
 # Define the application directory
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
@@ -9,6 +10,10 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 # SQLite for this example
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
 DATABASE_CONNECT_OPTIONS = {}
+
+# Python social auth
+SOCIAL_AUTH_USER_MODEL = 'app.auth.models.Account'
+
 
 # Application threads. A common general assumption is
 # using 2 per available processor cores - to handle

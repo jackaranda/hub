@@ -14,15 +14,13 @@ class Base(db.Model):
 
 
 # Define a User model
-class User(Base):
+class Account(Base):
 
     __tablename__ = 'auth_user'
 
-    email        = db.Column(db.String(128),  nullable=False,
-                                            unique=True)
+    email        = db.Column(db.String(128),  nullable=False, unique=False)
     password     = db.Column(db.String(192),  nullable=False)
-
-    shortname    = db.Column(db.String(128),  nullable=False)
+    shortname    = db.Column(db.String(128),  nullable=False, unique=True)
 
     # New instance instantiation procedure
     def __init__(self, name, email, password):
@@ -32,4 +30,4 @@ class User(Base):
         self.password = password
 
     def __repr__(self):
-        return '<User %r>' % (self.shortname)
+        return '<account %r>' % (self.shortname)
