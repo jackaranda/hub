@@ -1,14 +1,17 @@
-//import 'bootstrap';
+import 'bootstrap'
 
-import Vue from 'vue';
+import { createApp } from 'vue'
 
-import '../sass/main.scss';
+import '../sass/main.scss'
 
 console.log('Here we go');
 
-var app = new Vue({
-    el: '#app',
-    data: {
-      message: 'Hello Vue!'
+const app = createApp({
+    data() {
+      return {
+        email: 'Enter your email nicely'
+      }
     }
-  });
+  }
+).mount('#signup');
+

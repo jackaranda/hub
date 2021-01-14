@@ -1,12 +1,19 @@
 # Import flask and template operators
 from flask import Flask, render_template
 
+
+# Import flask-login
+#import flask_login
+#login_manager = flask_login.LoginManager()
+
 # Import python-social-auth 
 from social_flask.routes import social_auth
 from social_flask_sqlalchemy.models import init_social
 
 # Import SQLAlchemy
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 # Define the WSGI application object
 app = Flask(__name__, static_url_path='/assets', static_folder='./web/assets/')
@@ -16,10 +23,16 @@ app.config.from_object('config')
 
 # Define the database object which is imported
 # by modules and controllers
-db = SQLAlchemy(app)
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'])
+Session = sessionmaker(engine)
+DeclarativeBase = declarative_base()
+
+# Initialize the login manager
+from app.auth.controllers import login_manager
+login_manager.init_app(app)
 
 # Initialize social auth db
-init_social(app, db)
+init_social(app, Session())
 
 # Sample HTTP error handling
 #@app.errorhandler(404)
@@ -35,4 +48,4 @@ app.register_blueprint(social_auth)
 app.register_blueprint(auth)
 app.register_blueprint(web)
 
-db.create_all()
+DeclarativeBase.metadata.create_all(bind=engine)

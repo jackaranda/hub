@@ -1,0 +1,39 @@
+{% extends "web/base.html" %}
+
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-8 pt-5">
+        <div class="card bg-light">
+            <div class="card-body">
+              <h5 class="card-title">Sign up to create a profile on hub</h5>
+
+              You can create a stand alone profile on hub using your email address and providing a password
+              <form id="signup" method="POST">
+                <div class="form-group">
+                  <p>{{ '{{' }} email {{ '}}' }}</p>
+                  <label for="signupEmail">Email address</label>
+                  <input type="email" name="email" v-model="email" class="form-control" id="signupEmail" aria-describedby="emailHelp" placeholder="Enter your email">
+                  
+                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                  <label for="signupPassword">Password</label>
+                  <input type="password" class="form-control" id="signupPassword">
+                  <label for="signupPasswordRepeat">Repeat password</label>
+                  <input type="password" class="form-control" id="signupPasswordRepeat">
+                </div>
+                <button type="submit" class="btn btn-primary">Sign me up</button>
+              </form>
+            </div>
+              <div class="card-body">
+              Alternatively you can sign up using one of your existing cloud accounts
+
+              </div>
+        </div>
+    </div>
+  </div>
+
+
+{% endblock %}
